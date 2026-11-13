@@ -20,7 +20,7 @@ function App() {
     <BrowserRouter>
       <ThemeProvider>
         <AuthProvider>
-          <div className="min-h-screen flex flex-col bg-[#0b0f19] text-slate-100 transition-colors">
+          <div className="min-h-screen flex flex-col theme-app transition-colors duration-200">
             <Navbar />
             <main className="flex-1">
             <Routes>

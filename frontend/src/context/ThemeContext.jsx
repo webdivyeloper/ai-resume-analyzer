@@ -3,23 +3,19 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const ThemeContext = createContext(null);
 
 export const ThemeProvider = ({ children }) => {
-  // Always default to 'dark' obsidian aesthetic
   const [theme, setTheme] = useState(() => {
-    const saved = localStorage.getItem('app-theme');
-    // If user previously had light or undefined, default to rich dark theme
-    if (!saved || saved === 'light') {
-      return 'dark';
-    }
-    return saved;
+    return localStorage.getItem('app-theme') || 'dark';
   });
 
   useEffect(() => {
     const root = document.documentElement;
     if (theme === 'dark') {
       root.classList.add('dark');
+      root.classList.remove('light');
       root.style.colorScheme = 'dark';
     } else {
       root.classList.remove('dark');
+      root.classList.add('light');
       root.style.colorScheme = 'light';
     }
     localStorage.setItem('app-theme', theme);
