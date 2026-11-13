@@ -186,7 +186,7 @@ const AnalysisReport = () => {
         {/* 4 Category Breakdown Bars (8 cols) */}
         <div className="lg:col-span-8 bg-white rounded-2xl border border-slate-200/80 shadow-xs p-6 flex flex-col justify-around">
           <h2 className="text-xs font-bold uppercase tracking-wider text-slate-700 mb-4">
-            Category Breakdown (SRS FR-4.4 & FR-7.1)
+            Category Breakdown & Metrics
           </h2>
 
           <div className="space-y-4">

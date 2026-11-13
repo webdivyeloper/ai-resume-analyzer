@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const ResumeModel = require('../models/Resume');
 const { extractTextAndSections } = require('../services/pdfService');
 

@@ -41,9 +41,6 @@ const Navbar = () => {
                 <span className="font-extrabold text-base tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors">
                   Resume<span className="text-blue-600">AI</span>
                 </span>
-                <span className="hidden sm:inline-block text-[10px] font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full ml-2">
-                  SRS v1.0
-                </span>
               </div>
             </Link>
           </div>

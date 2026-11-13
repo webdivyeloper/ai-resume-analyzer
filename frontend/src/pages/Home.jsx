@@ -29,7 +29,7 @@ const Home = () => {
             <div className="lg:col-span-7">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200/80 text-blue-700 text-xs font-semibold mb-6">
                 <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
-                Software Engineering Project • SRS v1.0
+                AI ATS Resume Screener & Matcher
               </div>
 
               <h1 className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight leading-[1.15]">
@@ -77,7 +77,7 @@ const Home = () => {
               <div className="mt-10 pt-6 border-t border-slate-100 grid grid-cols-3 gap-4 text-left">
                 <div>
                   <div className="text-2xl font-black text-slate-900 font-mono">100%</div>
-                  <div className="text-xs text-slate-500 font-medium">SRS Compliant</div>
+                  <div className="text-xs text-slate-500 font-medium">Automated Parsing</div>
                 </div>
                 <div>
                   <div className="text-2xl font-black text-blue-600 font-mono">4-in-1</div>
