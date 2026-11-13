@@ -15,3 +15,4 @@ router.get('/:id', authMiddleware, getResumeById);
 router.delete('/:id', authMiddleware, deleteResume);
 
 module.exports = router;
+

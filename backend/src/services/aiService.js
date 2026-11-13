@@ -84,3 +84,4 @@ Please return a valid JSON object ONLY with the following structure:
 module.exports = {
   analyzeResumeWithAI,
 };
+

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { UserPlus, AlertCircle, Sparkles } from 'lucide-react';
+import { UserPlus, AlertCircle, FileText } from 'lucide-react';
 
 const Register = () => {
   const { register } = useAuth();
@@ -33,33 +33,36 @@ const Register = () => {
         navigate('/dashboard');
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed. Please try another email.');
+      setError(err.response?.data?.message || 'Registration failed. Email may already be registered.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 bg-slate-50">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-slate-200 p-8">
-        <div className="text-center mb-8">
-          <div className="inline-flex p-3 rounded-2xl bg-blue-50 text-blue-600 mb-3">
-            <Sparkles className="w-6 h-6" />
+    <div className="min-h-[calc(100vh-3.5rem)] flex items-center justify-center p-4 bg-slate-50">
+      <div className="w-full max-w-sm bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+        <div className="mb-6">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-6 h-6 rounded bg-slate-900 text-white flex items-center justify-center text-xs">
+              <FileText className="w-3.5 h-3.5" />
+            </div>
+            <span className="font-semibold text-sm text-slate-900">AI Resume Analyzer</span>
           </div>
-          <h2 className="text-2xl font-bold text-slate-900">Create Account</h2>
-          <p className="text-sm text-slate-500 mt-1">Join AI Resume Analyzer platform</p>
+          <h2 className="text-xl font-bold text-slate-900">Account Registration</h2>
+          <p className="text-xs text-slate-500 mt-0.5">Create your student or evaluator profile</p>
         </div>
 
         {error && (
-          <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm flex items-start gap-2.5">
-            <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+          <div className="mb-4 p-3 rounded bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-start gap-2">
+            <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
             <span>{error}</span>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3.5">
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wide mb-1">
               Full Name
             </label>
             <input
@@ -67,13 +70,13 @@ const Register = () => {
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="e.g. Rahul Sharma"
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-sm transition-all"
+              placeholder="e.g. John Doe"
+              className="w-full px-3 py-2 rounded border border-slate-300 focus:outline-none focus:border-slate-800 text-xs transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wide mb-1">
               Email Address
             </label>
             <input
@@ -81,13 +84,13 @@ const Register = () => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="e.g. rahul@example.com"
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-sm transition-all"
+              placeholder="e.g. candidate@example.com"
+              className="w-full px-3 py-2 rounded border border-slate-300 focus:outline-none focus:border-slate-800 text-xs transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wide mb-1">
               Password (min. 6 characters)
             </label>
             <input
@@ -96,20 +99,20 @@ const Register = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-sm transition-all"
+              className="w-full px-3 py-2 rounded border border-slate-300 focus:outline-none focus:border-slate-800 text-xs transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wide mb-1">
               Account Role
             </label>
             <select
               value={role}
               onChange={(e) => setRole(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-sm bg-white transition-all"
+              className="w-full px-3 py-2 rounded border border-slate-300 focus:outline-none focus:border-slate-800 text-xs bg-white"
             >
-              <option value="user">Standard User (Candidate / Student)</option>
+              <option value="user">Candidate / Student</option>
               <option value="admin">Administrator</option>
             </select>
           </div>
@@ -117,21 +120,21 @@ const Register = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full mt-2 py-3 px-4 rounded-xl text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-500/20 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full mt-2 py-2 px-3 rounded bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold shadow-xs transition-colors disabled:opacity-50 flex items-center justify-center gap-1.5"
           >
             {loading ? (
-              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              <span className="text-xs">Creating account...</span>
             ) : (
               <>
-                <UserPlus className="w-4 h-4" />
-                Register
+                <UserPlus className="w-3.5 h-3.5" />
+                Register Account
               </>
             )}
           </button>
         </form>
 
-        <p className="mt-6 text-center text-xs text-slate-500">
-          Already have an account?{' '}
+        <p className="mt-5 text-center text-xs text-slate-500">
+          Already registered?{' '}
           <Link to="/login" className="font-semibold text-blue-600 hover:underline">
             Sign In
           </Link>

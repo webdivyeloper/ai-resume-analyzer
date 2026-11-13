@@ -132,3 +132,4 @@ se_project/
 | **FR-7.1 - FR-7.4** | Full ATS report with visual score gauge, category bars, export/print, and history |
 | **FR-8.1 - FR-8.3** | Protected Admin Panel displaying system stats, user list, and moderation |
 | **NFR-5.1** | Failure resilience: graceful fallback to local storage and NLP heuristics |
+

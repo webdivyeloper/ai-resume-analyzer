@@ -4,14 +4,13 @@ import { useAuth } from '../context/AuthContext';
 import {
   FileText,
   LayoutDashboard,
-  UploadCloud,
-  History,
+  Upload,
+  Clock,
   User,
-  ShieldCheck,
+  Shield,
   LogOut,
   Menu,
   X,
-  Sparkles,
 } from 'lucide-react';
 
 const Navbar = () => {
@@ -28,151 +27,154 @@ const Navbar = () => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <nav className="bg-white border-b border-slate-200 sticky top-0 z-50">
+    <nav className="bg-slate-900 text-slate-100 border-b border-slate-800 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          {/* Logo */}
-          <div className="flex items-center">
-            <Link to="/" className="flex items-center gap-2.5 font-bold text-xl text-slate-900 group">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform">
-                <Sparkles className="w-5 h-5" />
+        <div className="flex justify-between h-14">
+          {/* Logo & Project Identity */}
+          <div className="flex items-center gap-3">
+            <Link to="/" className="flex items-center gap-2.5 text-slate-100 hover:text-white transition-colors">
+              <div className="w-8 h-8 rounded bg-slate-800 border border-slate-700 flex items-center justify-center text-blue-400">
+                <FileText className="w-4 h-4" />
               </div>
-              <span className="tracking-tight">
-                Resume<span className="text-blue-600">AI</span>
+              <span className="font-semibold text-base tracking-tight text-white">
+                AI Resume Analyzer
               </span>
             </Link>
+            <span className="hidden sm:inline-block text-[11px] text-slate-400 border-l border-slate-700 pl-3">
+              Medicaps University • CSE Dept
+            </span>
           </div>
 
           {/* Desktop Navigation */}
           {isAuthenticated ? (
-            <div className="hidden md:flex items-center gap-1">
+            <div className="hidden md:flex items-center gap-1 text-xs">
               <Link
                 to="/dashboard"
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded font-medium transition-colors ${
                   isActive('/dashboard')
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                    ? 'text-white bg-slate-800 border border-slate-700'
+                    : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
                 }`}
               >
-                <LayoutDashboard className="w-4 h-4" />
+                <LayoutDashboard className="w-3.5 h-3.5" />
                 Dashboard
               </Link>
 
               <Link
                 to="/analyze"
-                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded font-medium transition-colors ${
                   isActive('/analyze')
-                    ? 'text-white bg-blue-600 shadow-sm'
-                    : 'text-blue-600 bg-blue-50 hover:bg-blue-100'
+                    ? 'text-white bg-blue-600'
+                    : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
                 }`}
               >
-                <UploadCloud className="w-4 h-4" />
+                <Upload className="w-3.5 h-3.5" />
                 Analyze Resume
               </Link>
 
               <Link
                 to="/history"
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded font-medium transition-colors ${
                   isActive('/history')
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                    ? 'text-white bg-slate-800 border border-slate-700'
+                    : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
                 }`}
               >
-                <History className="w-4 h-4" />
+                <Clock className="w-3.5 h-3.5" />
                 History
               </Link>
 
               {isAdmin && (
                 <Link
                   to="/admin"
-                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded font-medium transition-colors ${
                     isActive('/admin')
-                      ? 'text-purple-600 bg-purple-50'
-                      : 'text-purple-600 hover:text-purple-700 hover:bg-purple-50'
+                      ? 'text-amber-300 bg-slate-800 border border-amber-500/30'
+                      : 'text-amber-400 hover:text-amber-300 hover:bg-slate-800/60'
                   }`}
                 >
-                  <ShieldCheck className="w-4 h-4" />
-                  Admin
+                  <Shield className="w-3.5 h-3.5" />
+                  Admin Panel
                 </Link>
               )}
 
-              <div className="h-6 w-px bg-slate-200 mx-2" />
+              <div className="h-4 w-px bg-slate-700 mx-2" />
 
               <Link
                 to="/profile"
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium border border-slate-200 transition-colors ${
-                  isActive('/profile') ? 'bg-slate-100 text-slate-900' : 'text-slate-700 hover:bg-slate-50'
+                className={`flex items-center gap-2 px-2.5 py-1 rounded text-xs transition-colors ${
+                  isActive('/profile') ? 'bg-slate-800 text-white border border-slate-700' : 'text-slate-300 hover:text-white'
                 }`}
               >
-                <User className="w-4 h-4 text-slate-500" />
-                <span className="truncate max-w-[120px]">{user?.name}</span>
+                <User className="w-3.5 h-3.5 text-slate-400" />
+                <span>{user?.name}</span>
                 {isAdmin && (
-                  <span className="bg-purple-100 text-purple-700 text-xs px-1.5 py-0.5 rounded font-semibold uppercase">
-                    Admin
+                  <span className="bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] px-1 py-0.2 rounded font-mono">
+                    ADMIN
                   </span>
                 )}
               </Link>
 
               <button
                 onClick={handleLogout}
-                title="Log Out"
-                className="p-2 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors ml-1"
+                title="Log out"
+                className="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-slate-800 rounded transition-colors ml-1"
               >
-                <LogOut className="w-4 h-4" />
+                <LogOut className="w-3.5 h-3.5" />
               </button>
             </div>
           ) : (
-            <div className="hidden md:flex items-center gap-3">
+            <div className="hidden md:flex items-center gap-2 text-xs">
               <Link
                 to="/login"
-                className="px-4 py-2 text-sm font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+                className="px-3 py-1.5 text-slate-300 hover:text-white hover:bg-slate-800 rounded font-medium transition-colors"
               >
                 Sign In
               </Link>
               <Link
                 to="/register"
-                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-colors"
+                className="px-3 py-1.5 text-white bg-blue-600 hover:bg-blue-700 rounded font-medium transition-colors"
               >
-                Create Account
+                Register
               </Link>
             </div>
           )}
 
-          {/* Mobile menu button */}
+          {/* Mobile menu toggle */}
           <div className="flex md:hidden items-center">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-slate-600 hover:bg-slate-100"
+              className="p-1.5 rounded text-slate-400 hover:text-white hover:bg-slate-800"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile dropdown */}
+      {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-200 bg-white px-4 pt-2 pb-4 space-y-1">
+        <div className="md:hidden border-t border-slate-800 bg-slate-900 px-4 py-3 space-y-1 text-sm">
           {isAuthenticated ? (
             <>
               <Link
                 to="/dashboard"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100"
+                className="block px-3 py-2 rounded text-slate-200 hover:bg-slate-800"
               >
                 Dashboard
               </Link>
               <Link
                 to="/analyze"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 rounded-md text-base font-medium text-blue-600 bg-blue-50"
+                className="block px-3 py-2 rounded text-blue-400 hover:bg-slate-800 font-medium"
               >
                 Analyze Resume
               </Link>
               <Link
                 to="/history"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100"
+                className="block px-3 py-2 rounded text-slate-200 hover:bg-slate-800"
               >
                 History
               </Link>
@@ -180,7 +182,7 @@ const Navbar = () => {
                 <Link
                   to="/admin"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block px-3 py-2 rounded-md text-base font-medium text-purple-600 bg-purple-50"
+                  className="block px-3 py-2 rounded text-amber-300 hover:bg-slate-800"
                 >
                   Admin Panel
                 </Link>
@@ -188,7 +190,7 @@ const Navbar = () => {
               <Link
                 to="/profile"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100"
+                className="block px-3 py-2 rounded text-slate-200 hover:bg-slate-800"
               >
                 Profile ({user?.name})
               </Link>
@@ -197,7 +199,7 @@ const Navbar = () => {
                   setMobileMenuOpen(false);
                   handleLogout();
                 }}
-                className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-rose-600 hover:bg-rose-50"
+                className="w-full text-left px-3 py-2 rounded text-rose-400 hover:bg-slate-800"
               >
                 Log Out
               </button>
@@ -207,14 +209,14 @@ const Navbar = () => {
               <Link
                 to="/login"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100"
+                className="block px-3 py-2 rounded text-slate-200 hover:bg-slate-800"
               >
                 Sign In
               </Link>
               <Link
                 to="/register"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 rounded-md text-base font-medium text-blue-600 font-semibold"
+                className="block px-3 py-2 rounded text-blue-400 hover:bg-slate-800 font-medium"
               >
                 Register
               </Link>

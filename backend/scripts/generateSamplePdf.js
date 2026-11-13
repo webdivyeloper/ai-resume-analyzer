@@ -78,3 +78,4 @@ const sampleLines = [
 ];
 
 createSimplePdf(path.join(__dirname, '../sample_resumes/John_Doe_Software_Engineer_Resume.pdf'), sampleLines);
+

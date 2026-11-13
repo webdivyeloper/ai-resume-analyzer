@@ -51,3 +51,4 @@ const ResumeModel = {
 };
 
 module.exports = ResumeModel;
+

@@ -40,3 +40,4 @@ const JobDescriptionModel = {
 };
 
 module.exports = JobDescriptionModel;
+

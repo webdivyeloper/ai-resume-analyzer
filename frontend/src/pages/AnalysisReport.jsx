@@ -2,21 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getAnalysisByIdApi } from '../services/api';
 import ScoreGauge from '../components/ScoreGauge';
-import confetti from 'canvas-confetti';
 import {
   FileText,
-  Sparkles,
-  CheckCircle2,
-  AlertTriangle,
+  CheckCircle,
+  AlertCircle,
   ArrowLeft,
   Printer,
-  TrendingUp,
-  Award,
+  ChevronRight,
+  Shield,
   Layers,
-  HelpCircle,
-  Copy,
-  ChevronDown,
-  ChevronUp,
 } from 'lucide-react';
 
 const AnalysisReport = () => {
@@ -31,15 +25,8 @@ const AnalysisReport = () => {
       try {
         const res = await getAnalysisByIdApi(id);
         setData(res.data);
-        if (res.data?.analysis?.overallScore >= 80) {
-          confetti({
-            particleCount: 60,
-            spread: 70,
-            origin: { y: 0.6 },
-          });
-        }
       } catch (err) {
-        setError(err.response?.data?.message || 'Failed to load analysis report.');
+        setError(err.response?.data?.message || 'Failed to retrieve analysis report.');
       } finally {
         setLoading(false);
       }
@@ -50,24 +37,24 @@ const AnalysisReport = () => {
 
   if (loading) {
     return (
-      <div className="min-h-[70vh] flex flex-col items-center justify-center gap-3">
-        <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-slate-500 text-sm font-medium">Generating Report View...</p>
+      <div className="min-h-[50vh] flex flex-col items-center justify-center gap-2 text-xs text-slate-500">
+        <div className="w-6 h-6 border-2 border-slate-900 border-t-transparent rounded-full animate-spin"></div>
+        <span>Loading report data...</span>
       </div>
     );
   }
 
   if (error || !data?.analysis) {
     return (
-      <div className="max-w-xl mx-auto my-16 p-8 bg-white rounded-2xl border border-red-200 text-center shadow-sm">
-        <AlertTriangle className="w-12 h-12 text-red-500 mx-auto mb-3" />
-        <h2 className="text-lg font-bold text-slate-900 mb-2">Report Not Found</h2>
-        <p className="text-sm text-slate-600 mb-6">{error || 'This analysis could not be retrieved.'}</p>
+      <div className="max-w-md mx-auto my-12 p-6 bg-white rounded-lg border border-slate-200 text-center">
+        <AlertCircle className="w-8 h-8 text-rose-600 mx-auto mb-2" />
+        <h2 className="text-sm font-bold text-slate-900">Report Unavailable</h2>
+        <p className="text-xs text-slate-500 mt-1 mb-4">{error || 'Record could not be found.'}</p>
         <Link
           to="/dashboard"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-slate-900 text-white text-xs font-medium"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-3.5 h-3.5" />
           Back to Dashboard
         </Link>
       </div>
@@ -94,85 +81,82 @@ const AnalysisReport = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 print:p-0">
-      {/* Top action navigation */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-200 gap-4 print:hidden">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-slate-800 print:p-0">
+      {/* Top Bar */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-200 gap-3 mb-6 print:hidden">
         <Link
           to="/dashboard"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 hover:text-slate-900"
         >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Dashboard
+          <ArrowLeft className="w-3.5 h-3.5" />
+          Dashboard
         </Link>
 
         <div className="flex items-center gap-2">
           <button
             onClick={handlePrint}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-xs transition-colors"
+            className="inline-flex items-center gap-1 px-3 py-1.5 rounded border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-medium transition-colors"
           >
-            <Printer className="w-4 h-4" />
-            Print / Save PDF
+            <Printer className="w-3.5 h-3.5" />
+            Print Report
           </button>
           <Link
             to="/analyze"
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 shadow-sm transition-colors"
+            className="inline-flex items-center gap-1 px-3 py-1.5 rounded bg-slate-900 hover:bg-slate-800 text-white text-xs font-medium transition-colors"
           >
-            <Sparkles className="w-4 h-4" />
             New Analysis
           </Link>
         </div>
       </div>
 
-      {/* Header Info */}
-      <div className="mt-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 uppercase tracking-wide">
-              ATS Match Report
-            </span>
-            <span className="text-xs text-slate-400">
-              {new Date(createdAt).toLocaleDateString()}
-            </span>
+      {/* Metadata Card */}
+      <div className="bg-white p-5 rounded-lg border border-slate-200 mb-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-700 text-[10px] font-mono uppercase">
+                SRS Diagnostic Report
+              </span>
+              <span className="text-[11px] text-slate-400 font-mono">
+                {new Date(createdAt).toLocaleString()}
+              </span>
+            </div>
+            <h1 className="text-xl font-bold text-slate-900 mt-1.5">
+              {jobTitle}
+            </h1>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Resume: <span className="font-medium text-slate-700">{resumeName}</span> • Parser Engine: <span className="font-mono text-slate-700">{aiMetadata.provider || 'Heuristic NLP'}</span>
+            </p>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">
-            {jobTitle || 'Target Position'}
-          </h1>
-          <p className="text-xs text-slate-500 mt-1 flex items-center gap-2">
-            <FileText className="w-3.5 h-3.5" />
-            Resume File: <span className="font-semibold text-slate-700">{resumeName}</span>
-            <span>•</span>
-            <span>Engine: {aiMetadata.provider || 'NLP Engine'}</span>
-          </p>
         </div>
       </div>
 
-      {/* Main Scoring Overview Card */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
-        {/* Overall Score Circle (4 cols) */}
-        <div className="lg:col-span-4 bg-white rounded-3xl border border-slate-200 shadow-sm p-6 flex flex-col items-center justify-center text-center">
-          <ScoreGauge score={overallScore} size={170} />
-          <p className="text-xs text-slate-500 mt-4 max-w-xs leading-relaxed">
-            Composite ATS compatibility score weighted by technical skills, quantifiable experience,
-            qualifications, and structural readability.
+      {/* Scoring Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
+        {/* Score Dial (4 cols) */}
+        <div className="lg:col-span-4 bg-white rounded-lg border border-slate-200 p-6 flex flex-col items-center justify-center text-center">
+          <ScoreGauge score={overallScore} size={150} />
+          <p className="text-[11px] text-slate-500 mt-4 leading-relaxed max-w-xs">
+            Composite ATS compliance weighted according to keyword overlap, section structure, and action-oriented experience.
           </p>
         </div>
 
-        {/* 4 Category Breakdown Bars (8 cols) */}
-        <div className="lg:col-span-8 bg-white rounded-3xl border border-slate-200 shadow-sm p-6 flex flex-col justify-around">
-          <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">
-            Category Breakdown
-          </h3>
+        {/* Category Breakdown Bars (8 cols) */}
+        <div className="lg:col-span-8 bg-white rounded-lg border border-slate-200 p-6 flex flex-col justify-around">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-700 mb-4">
+            Category Breakdown (FR-4.4 & FR-7.1)
+          </h2>
 
-          <div className="space-y-4">
+          <div className="space-y-4 text-xs">
             {/* Skills */}
             <div>
-              <div className="flex justify-between text-xs font-semibold mb-1">
-                <span className="text-slate-700">Skills & Technology Match</span>
-                <span className="text-blue-600">{categoryScores.skills || 0}%</span>
+              <div className="flex justify-between font-medium mb-1">
+                <span className="text-slate-700">Skills & Technology Alignment</span>
+                <span className="font-mono text-slate-900">{categoryScores.skills || 0}%</span>
               </div>
-              <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+              <div className="w-full bg-slate-100 h-2 rounded overflow-hidden">
                 <div
-                  className="bg-blue-600 h-full rounded-full transition-all duration-1000"
+                  className="bg-slate-800 h-full rounded transition-all duration-700"
                   style={{ width: `${categoryScores.skills || 0}%` }}
                 ></div>
               </div>
@@ -180,13 +164,13 @@ const AnalysisReport = () => {
 
             {/* Experience */}
             <div>
-              <div className="flex justify-between text-xs font-semibold mb-1">
-                <span className="text-slate-700">Experience & Action Verbs</span>
-                <span className="text-indigo-600">{categoryScores.experience || 0}%</span>
+              <div className="flex justify-between font-medium mb-1">
+                <span className="text-slate-700">Experience & Verbs (Action impact)</span>
+                <span className="font-mono text-slate-900">{categoryScores.experience || 0}%</span>
               </div>
-              <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+              <div className="w-full bg-slate-100 h-2 rounded overflow-hidden">
                 <div
-                  className="bg-indigo-600 h-full rounded-full transition-all duration-1000"
+                  className="bg-slate-800 h-full rounded transition-all duration-700"
                   style={{ width: `${categoryScores.experience || 0}%` }}
                 ></div>
               </div>
@@ -194,27 +178,27 @@ const AnalysisReport = () => {
 
             {/* Education */}
             <div>
-              <div className="flex justify-between text-xs font-semibold mb-1">
-                <span className="text-slate-700">Education & Academic Alignment</span>
-                <span className="text-emerald-600">{categoryScores.education || 0}%</span>
+              <div className="flex justify-between font-medium mb-1">
+                <span className="text-slate-700">Education & Academic Background</span>
+                <span className="font-mono text-slate-900">{categoryScores.education || 0}%</span>
               </div>
-              <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+              <div className="w-full bg-slate-100 h-2 rounded overflow-hidden">
                 <div
-                  className="bg-emerald-600 h-full rounded-full transition-all duration-1000"
+                  className="bg-slate-800 h-full rounded transition-all duration-700"
                   style={{ width: `${categoryScores.education || 0}%` }}
                 ></div>
               </div>
             </div>
 
-            {/* ATS Formatting */}
+            {/* Formatting */}
             <div>
-              <div className="flex justify-between text-xs font-semibold mb-1">
-                <span className="text-slate-700">ATS Structure & Formatting</span>
-                <span className="text-amber-600">{categoryScores.formatting || 0}%</span>
+              <div className="flex justify-between font-medium mb-1">
+                <span className="text-slate-700">ATS Structure & Formatting Compliance</span>
+                <span className="font-mono text-slate-900">{categoryScores.formatting || 0}%</span>
               </div>
-              <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+              <div className="w-full bg-slate-100 h-2 rounded overflow-hidden">
                 <div
-                  className="bg-amber-500 h-full rounded-full transition-all duration-1000"
+                  className="bg-slate-800 h-full rounded transition-all duration-700"
                   style={{ width: `${categoryScores.formatting || 0}%` }}
                 ></div>
               </div>
@@ -224,35 +208,35 @@ const AnalysisReport = () => {
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-slate-200 mb-6 gap-2">
+      <div className="flex border-b border-slate-200 mb-6 text-xs font-medium">
         <button
           onClick={() => setActiveTab('recommendations')}
-          className={`py-2.5 px-4 text-xs font-bold rounded-t-lg transition-colors border-b-2 ${
+          className={`py-2 px-3 border-b-2 transition-colors ${
             activeTab === 'recommendations'
-              ? 'border-blue-600 text-blue-600 bg-blue-50/50'
+              ? 'border-slate-900 text-slate-900 font-semibold'
               : 'border-transparent text-slate-500 hover:text-slate-800'
           }`}
         >
-          AI Suggestions & Feedback
+          Recommendations & Feedback
         </button>
 
         <button
           onClick={() => setActiveTab('keywords')}
-          className={`py-2.5 px-4 text-xs font-bold rounded-t-lg transition-colors border-b-2 ${
+          className={`py-2 px-3 border-b-2 transition-colors ${
             activeTab === 'keywords'
-              ? 'border-blue-600 text-blue-600 bg-blue-50/50'
+              ? 'border-slate-900 text-slate-900 font-semibold'
               : 'border-transparent text-slate-500 hover:text-slate-800'
           }`}
         >
-          Keywords Match & Gaps ({matchedKeywords.length} / {missingKeywords.length})
+          Keyword Match & Gaps ({matchedKeywords.length} Matched / {missingKeywords.length} Missing)
         </button>
 
         {resume?.sections && (
           <button
             onClick={() => setActiveTab('sections')}
-            className={`py-2.5 px-4 text-xs font-bold rounded-t-lg transition-colors border-b-2 ${
+            className={`py-2 px-3 border-b-2 transition-colors ${
               activeTab === 'sections'
-                ? 'border-blue-600 text-blue-600 bg-blue-50/50'
+                ? 'border-slate-900 text-slate-900 font-semibold'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
@@ -261,71 +245,52 @@ const AnalysisReport = () => {
         )}
       </div>
 
-      {/* Tab 1: AI Suggestions & Feedback */}
+      {/* Tab 1: Recommendations */}
       {activeTab === 'recommendations' && (
         <div className="space-y-6">
-          {/* Actionable Recommendations */}
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="p-2 rounded-lg bg-blue-50 text-blue-600">
-                <Sparkles className="w-5 h-5" />
-              </div>
-              <h3 className="text-base font-bold text-slate-900">
-                Actionable Recommendations for Higher ATS Ranking
-              </h3>
-            </div>
-            <ul className="space-y-3">
+          <div className="bg-white rounded-lg border border-slate-200 p-5">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 mb-3">
+              Actionable Recommendations (FR-5.3 & FR-6.3)
+            </h3>
+            <ul className="space-y-2 text-xs text-slate-700">
               {recommendations.map((rec, i) => (
                 <li
                   key={i}
-                  className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-100 text-sm text-slate-700 leading-relaxed"
+                  className="p-3 rounded bg-slate-50 border border-slate-100 flex items-start gap-2.5 leading-relaxed"
                 >
-                  <span className="w-6 h-6 rounded-full bg-blue-100 text-blue-700 text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
-                    {i + 1}
-                  </span>
+                  <span className="font-mono font-bold text-slate-500 text-[11px] mt-0.5">{i + 1}.</span>
                   <span>{rec}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Strengths & Issues Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Strengths */}
-            <div className="bg-white rounded-2xl border border-emerald-200/80 shadow-sm p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="p-2 rounded-lg bg-emerald-50 text-emerald-600">
-                  <CheckCircle2 className="w-5 h-5" />
-                </div>
-                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
-                  Identified Strengths ({strengths.length})
-                </h3>
-              </div>
-              <ul className="space-y-2.5">
-                {strengths.map((str, i) => (
-                  <li key={i} className="flex items-start gap-2.5 text-xs text-slate-700">
-                    <span className="text-emerald-500 font-bold mt-0.5">✓</span>
-                    <span className="leading-relaxed">{str}</span>
+            <div className="bg-white rounded-lg border border-slate-200 p-5">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-800 mb-3 flex items-center gap-1.5">
+                <CheckCircle className="w-3.5 h-3.5" />
+                Identified Strengths ({strengths.length})
+              </h3>
+              <ul className="space-y-2 text-xs text-slate-700">
+                {strengths.map((s, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <span className="text-emerald-700 font-bold">•</span>
+                    <span className="leading-relaxed">{s}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* Improvement Areas */}
-            <div className="bg-white rounded-2xl border border-amber-200/80 shadow-sm p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="p-2 rounded-lg bg-amber-50 text-amber-600">
-                  <AlertTriangle className="w-5 h-5" />
-                </div>
-                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
-                  Improvement Areas & Issues ({issues.length})
-                </h3>
-              </div>
-              <ul className="space-y-2.5">
-                {issues.map((iss, i) => (
-                  <li key={i} className="flex items-start gap-2.5 text-xs text-slate-700">
-                    <span className="text-amber-500 font-bold mt-0.5">⚠</span>
-                    <span className="leading-relaxed">{iss}</span>
+            <div className="bg-white rounded-lg border border-slate-200 p-5">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-amber-800 mb-3 flex items-center gap-1.5">
+                <AlertCircle className="w-3.5 h-3.5" />
+                Weaknesses & Gaps ({issues.length})
+              </h3>
+              <ul className="space-y-2 text-xs text-slate-700">
+                {issues.map((issue, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <span className="text-amber-700 font-bold">•</span>
+                    <span className="leading-relaxed">{issue}</span>
                   </li>
                 ))}
               </ul>
@@ -334,59 +299,49 @@ const AnalysisReport = () => {
         </div>
       )}
 
-      {/* Tab 2: Keywords Match & Gaps */}
+      {/* Tab 2: Keywords */}
       {activeTab === 'keywords' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Matched Keywords */}
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-bold text-emerald-700 uppercase tracking-wider flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4" />
-                Matched Skills & Keywords ({matchedKeywords.length})
-              </h3>
-            </div>
+          <div className="bg-white rounded-lg border border-slate-200 p-5">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 mb-3">
+              Matched Keywords ({matchedKeywords.length})
+            </h3>
             {matchedKeywords.length === 0 ? (
-              <p className="text-xs text-slate-400">No matching keywords found in this resume.</p>
+              <p className="text-xs text-slate-400">No direct keyword overlap detected.</p>
             ) : (
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1.5">
                 {matchedKeywords.map((kw, i) => (
                   <span
                     key={i}
-                    className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1.5"
+                    className="px-2.5 py-1 rounded text-xs font-medium bg-emerald-50 text-emerald-800 border border-emerald-200"
                   >
-                    <span>✓</span>
-                    {kw}
+                    ✓ {kw}
                   </span>
                 ))}
               </div>
             )}
           </div>
 
-          {/* Missing Keywords */}
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-bold text-rose-700 uppercase tracking-wider flex items-center gap-2">
-                <AlertTriangle className="w-4 h-4" />
-                Missing Target Keywords ({missingKeywords.length})
-              </h3>
-            </div>
+          <div className="bg-white rounded-lg border border-slate-200 p-5">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 mb-3">
+              Missing Target Keywords ({missingKeywords.length})
+            </h3>
             {missingKeywords.length === 0 ? (
-              <p className="text-xs text-emerald-600 font-medium">
-                Outstanding! All core target keywords from the job description are present.
+              <p className="text-xs text-emerald-700 font-medium">
+                All identified job requirements are covered in the resume.
               </p>
             ) : (
               <div>
-                <p className="text-xs text-slate-500 mb-3">
-                  Consider integrating these keywords into your skills, work experience, or project bullet points:
+                <p className="text-[11px] text-slate-500 mb-3">
+                  Incorporate relevant experience with these terms where applicable:
                 </p>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1.5">
                   {missingKeywords.map((kw, i) => (
                     <span
                       key={i}
-                      className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200 flex items-center gap-1"
+                      className="px-2.5 py-1 rounded text-xs font-medium bg-rose-50 text-rose-800 border border-rose-200"
                     >
-                      <span>+</span>
-                      {kw}
+                      + {kw}
                     </span>
                   ))}
                 </div>
@@ -396,39 +351,34 @@ const AnalysisReport = () => {
         </div>
       )}
 
-      {/* Tab 3: Parsed Resume Sections */}
+      {/* Tab 3: Parsed Sections */}
       {activeTab === 'sections' && resume?.sections && (
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-6">
-          <div className="border-b border-slate-100 pb-3">
-            <h3 className="text-base font-bold text-slate-900">Extracted Resume Content</h3>
-            <p className="text-xs text-slate-500 mt-0.5">
-              Sections detected by the automated PDF parsing pipeline
-            </p>
-          </div>
+        <div className="bg-white rounded-lg border border-slate-200 p-5 space-y-4">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800">
+            Structural Sections Extracted (FR-2.4)
+          </h3>
 
-          {/* Summary */}
           {resume.sections.summary && (
             <div>
-              <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
-                Summary / Objective
-              </h4>
-              <p className="text-xs text-slate-700 bg-slate-50 p-3.5 rounded-xl border border-slate-100 leading-relaxed">
+              <span className="block text-[11px] font-semibold text-slate-500 uppercase mb-1">
+                Summary Section
+              </span>
+              <p className="text-xs bg-slate-50 p-3 rounded border border-slate-100 text-slate-700 leading-relaxed font-mono">
                 {resume.sections.summary}
               </p>
             </div>
           )}
 
-          {/* Skills */}
           {resume.sections.skills && resume.sections.skills.length > 0 && (
             <div>
-              <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
-                Identified Skills ({resume.sections.skills.length})
-              </h4>
-              <div className="flex flex-wrap gap-1.5">
+              <span className="block text-[11px] font-semibold text-slate-500 uppercase mb-1">
+                Skills Section ({resume.sections.skills.length})
+              </span>
+              <div className="flex flex-wrap gap-1">
                 {resume.sections.skills.map((s, idx) => (
                   <span
                     key={idx}
-                    className="px-2.5 py-1 rounded-md text-xs font-medium bg-slate-100 text-slate-800"
+                    className="px-2 py-0.5 rounded text-[11px] bg-slate-100 border border-slate-200 text-slate-700"
                   >
                     {s}
                   </span>
@@ -437,33 +387,27 @@ const AnalysisReport = () => {
             </div>
           )}
 
-          {/* Experience */}
           {resume.sections.experience && resume.sections.experience.length > 0 && (
             <div>
-              <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
-                Work Experience Bullets
-              </h4>
-              <div className="space-y-1.5 bg-slate-50 p-4 rounded-xl border border-slate-100">
+              <span className="block text-[11px] font-semibold text-slate-500 uppercase mb-1">
+                Experience Section
+              </span>
+              <div className="space-y-1 bg-slate-50 p-3 rounded border border-slate-100 text-xs text-slate-700">
                 {resume.sections.experience.map((exp, idx) => (
-                  <p key={idx} className="text-xs text-slate-700 leading-relaxed">
-                    • {exp}
-                  </p>
+                  <p key={idx}>• {exp}</p>
                 ))}
               </div>
             </div>
           )}
 
-          {/* Education */}
           {resume.sections.education && resume.sections.education.length > 0 && (
             <div>
-              <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
-                Education
-              </h4>
-              <div className="space-y-1.5 bg-slate-50 p-4 rounded-xl border border-slate-100">
+              <span className="block text-[11px] font-semibold text-slate-500 uppercase mb-1">
+                Education Section
+              </span>
+              <div className="space-y-1 bg-slate-50 p-3 rounded border border-slate-100 text-xs text-slate-700">
                 {resume.sections.education.map((edu, idx) => (
-                  <p key={idx} className="text-xs text-slate-700 leading-relaxed">
-                    • {edu}
-                  </p>
+                  <p key={idx}>• {edu}</p>
                 ))}
               </div>
             </div>

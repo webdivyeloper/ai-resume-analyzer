@@ -58,3 +58,4 @@ const AnalysisModel = {
 };
 
 module.exports = AnalysisModel;
+

@@ -4,14 +4,12 @@ import { useAuth } from '../context/AuthContext';
 import { getAnalysesApi, getResumesApi } from '../services/api';
 import {
   FileText,
-  UploadCloud,
-  TrendingUp,
-  Award,
-  Layers,
-  ArrowRight,
+  Upload,
+  BarChart2,
   Clock,
-  CheckCircle,
-  ExternalLink,
+  ArrowRight,
+  ChevronRight,
+  Database,
 } from 'lucide-react';
 
 const Dashboard = () => {
@@ -48,159 +46,126 @@ const Dashboard = () => {
       : 0;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Welcome Banner */}
-      <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 rounded-3xl p-6 sm:p-8 text-white shadow-xl shadow-blue-500/15 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-slate-800">
+      {/* Top Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-200 gap-4 mb-6">
         <div>
-          <span className="inline-block px-3 py-1 rounded-full bg-white/20 text-xs font-semibold uppercase tracking-wider backdrop-blur-sm mb-3">
-            Candidate Portal
-          </span>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-            Hello, {user?.name || 'Candidate'} 👋
-          </h1>
-          <p className="mt-2 text-blue-100 text-sm max-w-xl">
-            Track your ATS scores, optimize your resume against competitive job profiles, and review
-            personalized recommendations.
+          <h1 className="text-xl font-bold text-slate-900 tracking-tight">Candidate Dashboard</h1>
+          <p className="text-xs text-slate-500 mt-0.5">
+            Logged in as <span className="font-semibold text-slate-700">{user?.name}</span> ({user?.email})
           </p>
         </div>
 
         <Link
           to="/analyze"
-          className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white text-blue-600 font-bold text-sm shadow-md hover:bg-blue-50 transition-all hover:scale-105"
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold shadow-xs transition-colors self-start sm:self-auto"
         >
-          <UploadCloud className="w-4 h-4" />
+          <Upload className="w-3.5 h-3.5" />
           Analyze New Resume
         </Link>
       </div>
 
       {/* Metric Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 uppercase">Total Analyses</span>
-            <div className="p-2 rounded-lg bg-blue-50 text-blue-600">
-              <Layers className="w-4 h-4" />
-            </div>
-          </div>
-          <p className="text-2xl sm:text-3xl font-black text-slate-900 mt-2">{totalAnalyses}</p>
-          <span className="text-xs text-slate-400 mt-1 block">Saved evaluations</span>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="bg-white p-4 rounded-lg border border-slate-200">
+          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">
+            Total Analyses
+          </span>
+          <div className="text-2xl font-bold font-mono text-slate-900 mt-1">{totalAnalyses}</div>
+          <span className="text-[11px] text-slate-400 mt-0.5 block">Stored job evaluations</span>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 uppercase">Highest Score</span>
-            <div className="p-2 rounded-lg bg-emerald-50 text-emerald-600">
-              <Award className="w-4 h-4" />
-            </div>
-          </div>
-          <p className="text-2xl sm:text-3xl font-black text-emerald-600 mt-2">
-            {highestScore}%
-          </p>
-          <span className="text-xs text-slate-400 mt-1 block">Best candidate match</span>
+        <div className="bg-white p-4 rounded-lg border border-slate-200">
+          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">
+            Highest Score
+          </span>
+          <div className="text-2xl font-bold font-mono text-emerald-700 mt-1">{highestScore}%</div>
+          <span className="text-[11px] text-slate-400 mt-0.5 block">Best match achieved</span>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 uppercase">Average Score</span>
-            <div className="p-2 rounded-lg bg-indigo-50 text-indigo-600">
-              <TrendingUp className="w-4 h-4" />
-            </div>
-          </div>
-          <p className="text-2xl sm:text-3xl font-black text-indigo-600 mt-2">{averageScore}%</p>
-          <span className="text-xs text-slate-400 mt-1 block">Across all scans</span>
+        <div className="bg-white p-4 rounded-lg border border-slate-200">
+          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">
+            Average ATS Score
+          </span>
+          <div className="text-2xl font-bold font-mono text-slate-900 mt-1">{averageScore}%</div>
+          <span className="text-[11px] text-slate-400 mt-0.5 block">Mean across all scans</span>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 uppercase">Uploaded Resumes</span>
-            <div className="p-2 rounded-lg bg-amber-50 text-amber-600">
-              <FileText className="w-4 h-4" />
-            </div>
-          </div>
-          <p className="text-2xl sm:text-3xl font-black text-slate-900 mt-2">{totalResumes}</p>
-          <span className="text-xs text-slate-400 mt-1 block">PDFs in repository</span>
+        <div className="bg-white p-4 rounded-lg border border-slate-200">
+          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">
+            Resumes in Locker
+          </span>
+          <div className="text-2xl font-bold font-mono text-slate-900 mt-1">{totalResumes}</div>
+          <span className="text-[11px] text-slate-400 mt-0.5 block">Parsed PDF documents</span>
         </div>
       </div>
 
-      {/* Main Content Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      {/* Main Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent Analyses (2 cols) */}
-        <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
-          <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+        <div className="lg:col-span-2 bg-white rounded-lg border border-slate-200 overflow-hidden">
+          <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50/50">
             <div>
-              <h2 className="text-lg font-bold text-slate-900">Recent Resume Analyses</h2>
-              <p className="text-xs text-slate-500 mt-0.5">Your latest job matching reports</p>
+              <h2 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                Recent Evaluations
+              </h2>
             </div>
             <Link
               to="/history"
-              className="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1"
+              className="text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1"
             >
-              View All ({totalAnalyses})
-              <ArrowRight className="w-3.5 h-3.5" />
+              View Full History
+              <ChevronRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
           {loading ? (
-            <div className="py-12 text-center text-slate-400">Loading analysis reports...</div>
+            <div className="p-8 text-center text-xs text-slate-400">Loading records...</div>
           ) : analyses.length === 0 ? (
-            <div className="py-12 text-center">
-              <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-500 mx-auto flex items-center justify-center mb-3">
-                <UploadCloud className="w-6 h-6" />
-              </div>
-              <h3 className="text-base font-semibold text-slate-700">No analyses performed yet</h3>
-              <p className="text-xs text-slate-500 max-w-sm mx-auto mt-1 mb-4">
-                Upload your first resume and compare it against any target job description.
-              </p>
+            <div className="p-8 text-center text-slate-500 text-xs">
+              <p>No resume analyses performed yet.</p>
               <Link
                 to="/analyze"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700"
+                className="mt-3 inline-block px-3 py-1.5 rounded bg-slate-900 text-white text-xs font-medium"
               >
-                Analyze First Resume
+                Start First Analysis
               </Link>
             </div>
           ) : (
-            <div className="space-y-3">
-              {analyses.slice(0, 5).map((analysis) => {
-                const id = analysis._id || analysis.id;
-                const score = analysis.overallScore || 0;
-                let badgeColor = 'bg-red-50 text-red-700 border-red-200';
-                if (score >= 80) badgeColor = 'bg-emerald-50 text-emerald-700 border-emerald-200';
-                else if (score >= 60) badgeColor = 'bg-amber-50 text-amber-700 border-amber-200';
+            <div className="divide-y divide-slate-100">
+              {analyses.slice(0, 6).map((item) => {
+                const id = item._id || item.id;
+                const score = item.overallScore || 0;
+                let scoreClass = 'text-rose-700 bg-rose-50 border-rose-200';
+                if (score >= 75) scoreClass = 'text-emerald-700 bg-emerald-50 border-emerald-200';
+                else if (score >= 55) scoreClass = 'text-amber-700 bg-amber-50 border-amber-200';
 
                 return (
                   <div
                     key={id}
-                    className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl border border-slate-100 hover:border-slate-200 hover:bg-slate-50/50 transition-all gap-3"
+                    className="p-3.5 flex items-center justify-between hover:bg-slate-50 transition-colors"
                   >
                     <div className="flex items-start gap-3">
-                      <div className="p-2.5 rounded-lg bg-blue-50 text-blue-600 flex-shrink-0 mt-0.5">
-                        <FileText className="w-5 h-5" />
+                      <div className="p-2 rounded bg-slate-100 text-slate-600 mt-0.5">
+                        <FileText className="w-4 h-4" />
                       </div>
                       <div>
-                        <h4 className="text-sm font-semibold text-slate-900">
-                          {analysis.jobTitle || 'Target Position'}
-                        </h4>
-                        <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500 mt-1">
-                          <span>{analysis.resumeName || 'Resume.pdf'}</span>
-                          <span>•</span>
-                          <span className="flex items-center gap-1">
-                            <Clock className="w-3 h-3" />
-                            {new Date(analysis.createdAt).toLocaleDateString()}
-                          </span>
-                        </div>
+                        <h3 className="text-xs font-bold text-slate-900">{item.jobTitle}</h3>
+                        <p className="text-[11px] text-slate-500 mt-0.5">
+                          {item.resumeName} • {new Date(item.createdAt).toLocaleDateString()}
+                        </p>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3 self-end sm:self-center">
-                      <div className={`px-2.5 py-1 rounded-full text-xs font-bold border ${badgeColor}`}>
+                    <div className="flex items-center gap-3">
+                      <span className={`px-2 py-0.5 rounded text-[11px] font-mono font-semibold border ${scoreClass}`}>
                         {score}% ATS
-                      </div>
+                      </span>
                       <Link
                         to={`/report/${id}`}
-                        className="px-3 py-1.5 rounded-lg text-xs font-semibold text-blue-600 hover:bg-blue-50 border border-blue-200 flex items-center gap-1 transition-colors"
+                        className="px-2.5 py-1 rounded text-xs font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 transition-colors"
                       >
-                        View Report
-                        <ArrowRight className="w-3.5 h-3.5" />
+                        Inspect
                       </Link>
                     </div>
                   </div>
@@ -210,38 +175,30 @@ const Dashboard = () => {
           )}
         </div>
 
-        {/* Uploaded Resumes Quick Section (1 col) */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
-          <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
-            <div>
-              <h2 className="text-lg font-bold text-slate-900">My Resumes</h2>
-              <p className="text-xs text-slate-500 mt-0.5">Parsed files in your locker</p>
-            </div>
+        {/* Resumes Locker (1 col) */}
+        <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
+          <div className="p-4 border-b border-slate-200 bg-slate-50/50">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+              Parsed Resumes
+            </h2>
           </div>
 
           {loading ? (
-            <div className="py-8 text-center text-slate-400">Loading resumes...</div>
+            <div className="p-6 text-center text-xs text-slate-400">Loading files...</div>
           ) : resumes.length === 0 ? (
-            <div className="py-8 text-center text-slate-500 text-xs">
-              No resumes uploaded yet.
-            </div>
+            <div className="p-6 text-center text-xs text-slate-400">No resumes stored yet.</div>
           ) : (
-            <div className="space-y-3">
-              {resumes.slice(0, 4).map((resume) => {
-                const id = resume._id || resume.id;
+            <div className="divide-y divide-slate-100">
+              {resumes.slice(0, 5).map((r) => {
+                const rid = r._id || r.id;
                 return (
-                  <div
-                    key={id}
-                    className="p-3 rounded-xl border border-slate-100 bg-slate-50/50 flex items-center justify-between"
-                  >
-                    <div className="flex items-center gap-2.5 overflow-hidden">
-                      <FileText className="w-4 h-4 text-slate-500 flex-shrink-0" />
-                      <span className="text-xs font-medium text-slate-800 truncate">
-                        {resume.originalFileName}
-                      </span>
+                  <div key={rid} className="p-3 flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-2 truncate">
+                      <FileText className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
+                      <span className="truncate font-medium text-slate-700">{r.originalFileName}</span>
                     </div>
-                    <span className="text-[10px] text-slate-400 flex-shrink-0 ml-2">
-                      {Math.round((resume.fileSize || 0) / 1024)} KB
+                    <span className="text-[10px] text-slate-400 font-mono ml-2 flex-shrink-0">
+                      {Math.round((r.fileSize || 0) / 1024)} KB
                     </span>
                   </div>
                 );
@@ -249,13 +206,12 @@ const Dashboard = () => {
             </div>
           )}
 
-          <div className="mt-6 pt-4 border-t border-slate-100">
+          <div className="p-3 border-t border-slate-100 bg-slate-50/30">
             <Link
               to="/analyze"
-              className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-semibold text-blue-600 bg-blue-50 hover:bg-blue-100 transition-colors"
+              className="w-full block text-center py-1.5 px-3 rounded border border-slate-200 text-xs font-medium text-slate-700 hover:bg-slate-100 transition-colors"
             >
-              <UploadCloud className="w-3.5 h-3.5" />
-              Upload Another Resume
+              Upload New PDF
             </Link>
           </div>
         </div>

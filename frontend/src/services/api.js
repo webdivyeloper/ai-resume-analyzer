@@ -64,3 +64,4 @@ export const getAdminUsersApi = () => api.get('/admin/users');
 export const deleteAdminUserApi = (id) => api.delete(`/admin/users/${id}`);
 
 export default api;
+

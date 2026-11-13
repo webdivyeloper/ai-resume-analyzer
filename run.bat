@@ -7,3 +7,4 @@ echo Starting Backend (Port 5000) and Frontend (Port 5173)...
 echo.
 node start.js
 pause
+

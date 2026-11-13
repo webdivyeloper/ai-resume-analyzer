@@ -12,3 +12,4 @@ router.get('/users', authMiddleware, adminOnly, getAllUsers);
 router.delete('/users/:id', authMiddleware, adminOnly, deleteUser);
 
 module.exports = router;
+
