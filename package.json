@@ -5,6 +5,8 @@
   "main": "start.js",
   "scripts": {
     "start": "node start.js",
+    "build": "cd frontend && npm install && npm run build && cd ../backend && npm install",
+    "start:prod": "cd backend && node src/server.js",
     "backend": "cd backend && npm start",
     "frontend": "cd frontend && npm run dev",
     "seed:pdf": "cd backend && node scripts/generateSamplePdf.js"
@@ -13,4 +15,3 @@
   "author": "Medicaps University CSE Dept",
   "license": "ISC"
 }
-
