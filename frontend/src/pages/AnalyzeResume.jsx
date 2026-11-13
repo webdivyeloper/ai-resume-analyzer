@@ -37,10 +37,10 @@ const AnalyzeResume = () => {
   const [loadingSampleResume, setLoadingSampleResume] = useState(false);
 
   const steps = [
-    'Parsing PDF text stream & sanitizing data...',
-    'Identifying resume sections (Skills, Experience, Education)...',
+    'Parsing PDF text stream & extracting metadata...',
+    'Segmenting sections (Skills, Experience, Education)...',
     'Analyzing target job description qualifications...',
-    'Generating category scores & actionable recommendations...',
+    'Computing ATS scores & actionable recommendations...',
   ];
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const AnalyzeResume = () => {
         setSelectedResumeId(list[0]._id || list[0].id);
       }
     } catch (e) {
-      console.warn(e);
+      console.warn('Could not load existing resumes', e);
     }
   };
 
@@ -116,7 +116,7 @@ const AnalyzeResume = () => {
         applyTemplate(templates[0]);
       }
     } catch (e) {
-      setError('Could not load sample resume: ' + e.message);
+      setError('Could not load sample resume: ' + (e.response?.data?.message || e.message));
     } finally {
       setLoadingSampleResume(false);
     }
@@ -142,7 +142,7 @@ const AnalyzeResume = () => {
     }
 
     if (!jobDescription.trim() || jobDescription.trim().length < 20) {
-      setError('Please enter a target job description (minimum 20 characters).');
+      setError('Please provide a target job description of at least 20 characters.');
       return;
     }
 
@@ -150,23 +150,24 @@ const AnalyzeResume = () => {
     setProgressStep(0);
 
     const stepInterval = setInterval(() => {
-      setProgressStep((prev) => (prev < 3 ? prev + 1 : prev));
+      setProgressStep((prev) => (prev < steps.length - 1 ? prev + 1 : prev));
     }, 600);
 
     try {
-      let res;
+      const formData = new FormData();
       if (sourceMode === 'upload') {
-        const formData = new FormData();
         formData.append('resume', file);
-        formData.append('jobTitle', jobTitle || 'Software Engineer');
-        formData.append('jobDescriptionText', jobDescription);
-        res = await createAnalysisApi(formData, true);
       } else {
-        res = await createAnalysisApi({
-          resumeId: selectedResumeId,
-          jobTitle: jobTitle || 'Software Engineer',
-          jobDescriptionText: jobDescription,
-        });
+        formData.append('resumeId', selectedResumeId);
+      }
+
+      formData.append('jobTitle', jobTitle || 'Target Position');
+      formData.append('jobDescription', jobDescription);
+
+      const res = await createAnalysisApi(formData);
+
+      if (sourceMode === 'upload') {
+        fetchResumes();
       }
 
       clearInterval(stepInterval);
@@ -180,14 +181,14 @@ const AnalyzeResume = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-slate-800">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-slate-100">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-200 gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-800 gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-2xl font-black text-white tracking-tight">
             Analyze Resume & Match Job
           </h1>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-slate-400 mt-1">
             Compare candidate PDF against job requirements to evaluate ATS score and keyword gaps
           </p>
         </div>
@@ -197,60 +198,60 @@ const AnalyzeResume = () => {
           type="button"
           disabled={loadingSampleResume}
           onClick={handleLoadSampleResume}
-          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 transition-all hover:scale-105 active:scale-95 shadow-xs"
+          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-indigo-300 bg-indigo-950/60 hover:bg-indigo-900/60 border border-indigo-700/60 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-indigo-950/50"
         >
-          <Zap className="w-3.5 h-3.5 text-indigo-600" />
+          <Zap className="w-3.5 h-3.5 text-indigo-400" />
           {loadingSampleResume ? 'Loading Sample...' : 'Quick Demo: Load Sample Resume'}
         </button>
       </div>
 
       {error && (
-        <div className="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-start gap-2.5">
-          <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+        <div className="mb-6 p-4 rounded-xl bg-rose-950/40 border border-rose-800/80 text-rose-300 text-xs flex items-start gap-2.5">
+          <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-rose-400" />
           <span>{error}</span>
         </div>
       )}
 
       {loading ? (
-        <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xl p-10 text-center max-w-lg mx-auto my-12">
+        <div className="bg-[#111827] rounded-3xl border border-slate-800 shadow-2xl p-10 text-center max-w-lg mx-auto my-12">
           <div className="relative w-16 h-16 mx-auto mb-6">
-            <div className="w-16 h-16 border-4 border-indigo-100 rounded-full"></div>
-            <div className="w-16 h-16 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin absolute inset-0"></div>
+            <div className="w-16 h-16 border-4 border-indigo-950 rounded-full"></div>
+            <div className="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin absolute inset-0"></div>
           </div>
-          <h3 className="text-lg font-bold text-slate-900 mb-2">Analyzing Resume...</h3>
-          <p className="text-sm font-semibold text-indigo-600 mb-6 transition-all">
+          <h3 className="text-lg font-bold text-white mb-2">Analyzing Resume...</h3>
+          <p className="text-sm font-semibold text-indigo-400 mb-6 transition-all">
             {steps[progressStep]}
           </p>
 
-          <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+          <div className="w-full bg-slate-900 h-2.5 rounded-full overflow-hidden border border-slate-800">
             <div
-              className="bg-gradient-to-r from-indigo-600 to-violet-600 h-full transition-all duration-700 ease-out"
+              className="bg-gradient-to-r from-indigo-500 to-violet-500 h-full transition-all duration-700 ease-out"
               style={{ width: `${((progressStep + 1) / steps.length) * 100}%` }}
             ></div>
           </div>
-          <p className="text-xs text-slate-400 mt-4">Evaluating against modern ATS algorithms...</p>
+          <p className="text-xs text-slate-500 mt-4">Evaluating against modern ATS algorithms...</p>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Step 1: Resume Selection */}
-            <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col justify-between">
+            <div className="bg-[#111827] p-6 rounded-2xl border border-slate-800 shadow-xl flex flex-col justify-between">
               <div>
-                <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
+                <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-800/80">
                   <div className="flex items-center gap-2">
-                    <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 font-black text-xs flex items-center justify-center">
+                    <span className="w-6 h-6 rounded-lg bg-indigo-950/80 border border-indigo-700/50 text-indigo-300 font-black text-xs flex items-center justify-center">
                       1
                     </span>
-                    <h2 className="text-sm font-bold text-slate-900">Candidate Resume (PDF)</h2>
+                    <h2 className="text-sm font-bold text-white">Candidate Resume (PDF)</h2>
                   </div>
 
                   {resumes.length > 0 && (
-                    <div className="flex gap-1 p-0.5 rounded-lg bg-slate-100 text-xs font-semibold">
+                    <div className="flex gap-1 p-0.5 rounded-lg bg-[#0f172a] border border-slate-800 text-xs font-semibold">
                       <button
                         type="button"
                         onClick={() => setSourceMode('upload')}
                         className={`px-2.5 py-1 rounded-md transition-all ${
-                          sourceMode === 'upload' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600'
+                          sourceMode === 'upload' ? 'bg-indigo-600 text-white shadow-xs font-bold' : 'text-slate-400 hover:text-slate-200'
                         }`}
                       >
                         Upload New
@@ -259,7 +260,7 @@ const AnalyzeResume = () => {
                         type="button"
                         onClick={() => setSourceMode('select')}
                         className={`px-2.5 py-1 rounded-md transition-all ${
-                          sourceMode === 'select' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600'
+                          sourceMode === 'select' ? 'bg-indigo-600 text-white shadow-xs font-bold' : 'text-slate-400 hover:text-slate-200'
                         }`}
                       >
                         Locker ({resumes.length})
@@ -277,25 +278,25 @@ const AnalyzeResume = () => {
                       onDrop={handleDrop}
                       className={`border-2 border-dashed rounded-2xl p-8 text-center transition-all ${
                         dragActive
-                          ? 'border-indigo-500 bg-indigo-50/50 scale-[1.01]'
+                          ? 'border-indigo-500 bg-indigo-950/40 scale-[1.01]'
                           : file
-                          ? 'border-emerald-300 bg-emerald-50/20'
-                          : 'border-slate-300 hover:border-indigo-400 bg-slate-50/40'
+                          ? 'border-emerald-500/60 bg-emerald-950/20'
+                          : 'border-slate-750 hover:border-indigo-500/50 bg-[#0f172a]/60'
                       }`}
                     >
                       {file ? (
                         <div className="flex flex-col items-center">
-                          <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-3">
+                          <div className="w-12 h-12 rounded-2xl bg-emerald-950/80 border border-emerald-700/60 text-emerald-400 flex items-center justify-center mb-3">
                             <FileCheck2 className="w-6 h-6" />
                           </div>
-                          <p className="text-sm font-bold text-slate-900">{file.name}</p>
-                          <p className="text-xs text-slate-500 font-mono mt-1">
+                          <p className="text-sm font-bold text-white">{file.name}</p>
+                          <p className="text-xs text-slate-400 font-mono mt-1">
                             {Math.round(file.size / 1024)} KB • Ready for extraction
                           </p>
                           <button
                             type="button"
                             onClick={() => setFile(null)}
-                            className="mt-3 text-xs text-rose-600 hover:underline flex items-center gap-1 font-semibold"
+                            className="mt-3 text-xs text-rose-400 hover:text-rose-300 hover:underline flex items-center gap-1 font-semibold"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                             Remove file
@@ -303,14 +304,14 @@ const AnalyzeResume = () => {
                         </div>
                       ) : (
                         <div>
-                          <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto mb-3">
+                          <div className="w-12 h-12 rounded-2xl bg-indigo-950/70 border border-indigo-800/50 text-indigo-400 flex items-center justify-center mx-auto mb-3">
                             <UploadCloud className="w-6 h-6" />
                           </div>
-                          <p className="text-sm font-bold text-slate-700">
+                          <p className="text-sm font-bold text-slate-200">
                             Drag & drop your PDF resume here
                           </p>
-                          <p className="text-xs text-slate-400 mt-1">Supports PDF format up to 5MB</p>
-                          <label className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 cursor-pointer transition-colors border border-indigo-200">
+                          <p className="text-xs text-slate-500 mt-1">Supports standard PDF format up to 5MB</p>
+                          <label className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-indigo-300 bg-indigo-950/70 hover:bg-indigo-900 border border-indigo-700/60 cursor-pointer transition-colors shadow-sm">
                             <FileText className="w-3.5 h-3.5" />
                             Choose PDF File
                             <input
@@ -326,13 +327,13 @@ const AnalyzeResume = () => {
                   </div>
                 ) : (
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                    <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
                       Select Previously Uploaded Resume:
                     </label>
                     <select
                       value={selectedResumeId}
                       onChange={(e) => setSelectedResumeId(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
+                      className="w-full px-4 py-2.5 rounded-xl border border-slate-700 text-sm bg-[#0f172a] text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500"
                     >
                       {resumes.map((r) => (
                         <option key={r._id || r.id} value={r._id || r.id}>
@@ -344,20 +345,20 @@ const AnalyzeResume = () => {
                 )}
               </div>
 
-              <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+              <div className="mt-4 pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-500">
                 <span>OCR Note: Machine text must be readable in PDF</span>
               </div>
             </div>
 
             {/* Step 2: Target Job Description */}
-            <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col justify-between">
+            <div className="bg-[#111827] p-6 rounded-2xl border border-slate-800 shadow-xl flex flex-col justify-between">
               <div>
-                <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
+                <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-800/80">
                   <div className="flex items-center gap-2">
-                    <span className="w-6 h-6 rounded-lg bg-violet-100 text-violet-700 font-black text-xs flex items-center justify-center">
+                    <span className="w-6 h-6 rounded-lg bg-violet-950/80 border border-violet-700/50 text-violet-300 font-black text-xs flex items-center justify-center">
                       2
                     </span>
-                    <h2 className="text-sm font-bold text-slate-900">Target Job Description</h2>
+                    <h2 className="text-sm font-bold text-white">Target Job Description</h2>
                   </div>
                 </div>
 
@@ -372,7 +373,7 @@ const AnalyzeResume = () => {
                           key={tpl.id}
                           type="button"
                           onClick={() => applyTemplate(tpl)}
-                          className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 border border-slate-200 transition-colors"
+                          className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[#0f172a] hover:bg-indigo-950 hover:text-indigo-300 text-slate-300 border border-slate-800 hover:border-indigo-700/60 transition-colors"
                         >
                           {tpl.title}
                         </button>
@@ -383,7 +384,7 @@ const AnalyzeResume = () => {
 
                 <div className="space-y-3">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                    <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">
                       Job Title
                     </label>
                     <input
@@ -391,12 +392,12 @@ const AnalyzeResume = () => {
                       value={jobTitle}
                       onChange={(e) => setJobTitle(e.target.value)}
                       placeholder="e.g. Senior Full Stack Engineer"
-                      className="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
+                      className="w-full px-3.5 py-2 rounded-xl border border-slate-700 bg-[#0f172a] text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                    <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">
                       Job Description Text
                     </label>
                     <textarea
@@ -405,15 +406,15 @@ const AnalyzeResume = () => {
                       value={jobDescription}
                       onChange={(e) => setJobDescription(e.target.value)}
                       placeholder="Paste required skills, languages, qualifications, and responsibilities..."
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-700 bg-[#0f172a] text-white placeholder-slate-500 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500"
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
-                <span>{jobDescription.length} characters</span>
-                <span className={jobDescription.length >= 20 ? 'text-emerald-600 font-semibold' : 'text-slate-400'}>
+              <div className="mt-4 pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                <span className="text-slate-500">{jobDescription.length} characters</span>
+                <span className={jobDescription.length >= 20 ? 'text-emerald-400 font-semibold' : 'text-slate-500'}>
                   {jobDescription.length >= 20 ? '✔ Valid Input' : 'Min. 20 chars'}
                 </span>
               </div>
@@ -424,7 +425,7 @@ const AnalyzeResume = () => {
             <button
               type="submit"
               disabled={loading}
-              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-lg shadow-indigo-500/25 transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
+              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-500 shadow-xl shadow-indigo-600/30 transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
             >
               <Sparkles className="w-4 h-4" />
               Run ATS Analysis & Generate Report

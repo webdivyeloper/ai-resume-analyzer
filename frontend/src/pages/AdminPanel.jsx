@@ -59,152 +59,148 @@ const AdminPanel = () => {
   });
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-slate-800">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-slate-100">
       {/* Header */}
-      <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-200">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-800 gap-4 mb-8">
         <div>
-          <div className="flex items-center gap-2">
-            <div className="p-2 rounded-xl bg-purple-100 text-purple-700">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
-            <h1 className="text-2xl font-black text-slate-900 tracking-tight">
-              Administrator Monitoring & Users
-            </h1>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="p-1 rounded-lg bg-indigo-950/80 border border-indigo-700/60 text-indigo-400">
+              <ShieldCheck className="w-4 h-4" />
+            </span>
+            <h1 className="text-2xl font-black text-white tracking-tight">Admin Console</h1>
           </div>
-          <p className="text-xs text-slate-500 mt-1">
-            System activity metrics, database status, and user management (SRS Section 3.8 / FR-8.1 – FR-8.3)
+          <p className="text-xs text-slate-400">
+            System health, usage analytics, and user account management (SRS FR-8)
           </p>
+        </div>
+
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#0f172a] border border-slate-800 text-xs font-mono text-emerald-400">
+          <div className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></div>
+          Database: Persistent Active
         </div>
       </div>
 
       {error && (
-        <div className="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
-          <AlertCircle className="w-4 h-4 flex-shrink-0" />
+        <div className="mb-6 p-4 rounded-xl bg-rose-950/40 border border-rose-800/80 text-rose-300 text-xs flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 flex-shrink-0 text-rose-400" />
           <span>{error}</span>
         </div>
       )}
 
-      {/* Metrics Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
-        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs card-hover">
+      {/* Metrics Row */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+        <div className="bg-[#111827] p-5 rounded-2xl border border-slate-800 shadow-xl">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Users</span>
-            <div className="p-2 rounded-xl bg-blue-50 text-blue-600">
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Users</span>
+            <div className="w-9 h-9 rounded-xl bg-indigo-950/80 border border-indigo-700/60 flex items-center justify-center text-indigo-400">
               <Users className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-3xl font-black font-mono text-slate-900 mt-2">
-            {stats?.totalUsers || 0}
-          </p>
-          <span className="text-xs text-slate-400 mt-1 block">Registered profiles</span>
+          <div className="text-2xl font-black text-white mt-3">{stats?.totalUsers ?? '...'}</div>
+          <span className="text-[11px] text-slate-500 mt-1 block">Registered student/admin accounts</span>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs card-hover">
+        <div className="bg-[#111827] p-5 rounded-2xl border border-slate-800 shadow-xl">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">PDFs Processed</span>
-            <div className="p-2 rounded-xl bg-indigo-50 text-indigo-600">
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Resumes Stored</span>
+            <div className="w-9 h-9 rounded-xl bg-emerald-950/80 border border-emerald-700/60 flex items-center justify-center text-emerald-400">
               <FileText className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-3xl font-black font-mono text-indigo-600 mt-2">
-            {stats?.totalResumes || 0}
-          </p>
-          <span className="text-xs text-slate-400 mt-1 block">Uploaded resumes</span>
+          <div className="text-2xl font-black text-white mt-3">{stats?.totalResumes ?? '...'}</div>
+          <span className="text-[11px] text-slate-500 mt-1 block">Indexed PDF documents</span>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs card-hover">
+        <div className="bg-[#111827] p-5 rounded-2xl border border-slate-800 shadow-xl">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Job Matches</span>
-            <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600">
-              <BarChart2 className="w-4 h-4" />
-            </div>
-          </div>
-          <p className="text-3xl font-black font-mono text-emerald-600 mt-2">
-            {stats?.totalAnalyses || 0}
-          </p>
-          <span className="text-xs text-slate-400 mt-1 block">Analyses conducted</span>
-        </div>
-
-        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs card-hover">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">System Mean</span>
-            <div className="p-2 rounded-xl bg-amber-50 text-amber-600">
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Total ATS Scans</span>
+            <div className="w-9 h-9 rounded-xl bg-violet-950/80 border border-violet-700/60 flex items-center justify-center text-violet-400">
               <Sparkles className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-3xl font-black font-mono text-amber-600 mt-2">
-            {stats?.averageAtsScore || 0}%
-          </p>
-          <span className="text-xs text-slate-400 mt-1 block">Average ATS score</span>
+          <div className="text-2xl font-black text-white mt-3">{stats?.totalAnalyses ?? '...'}</div>
+          <span className="text-[11px] text-slate-500 mt-1 block">Completed evaluations</span>
+        </div>
+
+        <div className="bg-[#111827] p-5 rounded-2xl border border-slate-800 shadow-xl">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Average Score</span>
+            <div className="w-9 h-9 rounded-xl bg-amber-950/80 border border-amber-700/60 flex items-center justify-center text-amber-400">
+              <BarChart2 className="w-4 h-4" />
+            </div>
+          </div>
+          <div className="text-2xl font-black text-white mt-3">
+            {stats?.averageScore ? `${stats.averageScore}%` : '0%'}
+          </div>
+          <span className="text-[11px] text-slate-500 mt-1 block">Cross-platform benchmark</span>
         </div>
       </div>
 
-      {/* Users Table */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
-        <div className="p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      {/* User Management Section */}
+      <div className="bg-[#111827] rounded-2xl border border-slate-800 shadow-xl overflow-hidden">
+        <div className="p-6 border-b border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h2 className="text-base font-bold text-slate-900">Registered Users Directory</h2>
-            <p className="text-xs text-slate-500">Manage student accounts and permissions</p>
+            <h2 className="text-base font-bold text-white">Registered Users</h2>
+            <p className="text-xs text-slate-400 mt-0.5">View system users and manage privileges</p>
           </div>
 
-          <div className="relative max-w-xs w-full">
-            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <div className="relative w-full sm:w-64">
+            <Search className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Search user..."
+              placeholder="Search user or email..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-3 py-1.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600"
+              className="w-full pl-9 pr-3 py-1.5 rounded-xl border border-slate-700 bg-[#0f172a] text-white placeholder-slate-500 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500"
             />
           </div>
         </div>
 
         {loading ? (
-          <div className="p-12 text-center text-xs text-slate-400">Loading user registry...</div>
+          <div className="p-8 text-center text-xs text-slate-500">Loading user accounts...</div>
         ) : filteredUsers.length === 0 ? (
-          <div className="p-12 text-center text-xs text-slate-500">No matching user accounts.</div>
+          <div className="p-8 text-center text-xs text-slate-500">No users found matching query.</div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 text-slate-500 uppercase font-bold border-b border-slate-100 text-[10px] tracking-wider">
+              <thead className="bg-[#0f172a] text-slate-400 font-bold uppercase tracking-wider border-b border-slate-800">
                 <tr>
-                  <th className="py-3 px-5">User</th>
-                  <th className="py-3 px-5">Role</th>
-                  <th className="py-3 px-5">Registered Date</th>
-                  <th className="py-3 px-5 text-right">Actions</th>
+                  <th className="py-3 px-6">User</th>
+                  <th className="py-3 px-6">Role</th>
+                  <th className="py-3 px-6">Joined</th>
+                  <th className="py-3 px-6 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-800/80">
                 {filteredUsers.map((u) => {
-                  const uid = u.id || u._id;
-                  const isAdminUser = u.role === 'admin';
-
+                  const id = u.id || u._id;
+                  const isUserAdmin = u.role === 'admin';
                   return (
-                    <tr key={uid} className="hover:bg-slate-50/70 transition-colors">
-                      <td className="py-3.5 px-5">
-                        <div className="font-bold text-slate-900">{u.name}</div>
-                        <div className="text-slate-400 text-[11px] font-mono">{u.email}</div>
+                    <tr key={id} className="hover:bg-[#162033] transition-colors">
+                      <td className="py-4 px-6">
+                        <div className="font-bold text-white">{u.name}</div>
+                        <div className="text-[11px] text-slate-400 font-mono">{u.email}</div>
                       </td>
-                      <td className="py-3.5 px-5">
+                      <td className="py-4 px-6">
                         <span
-                          className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase ${
-                            isAdminUser
-                              ? 'bg-purple-100 text-purple-700 border border-purple-200'
-                              : 'bg-blue-50 text-blue-700 border border-blue-200'
+                          className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                            isUserAdmin
+                              ? 'bg-purple-950/80 border border-purple-700/60 text-purple-300'
+                              : 'bg-indigo-950/80 border border-indigo-700/60 text-indigo-300'
                           }`}
                         >
                           {u.role}
                         </span>
                       </td>
-                      <td className="py-3.5 px-5 text-slate-500 font-mono text-[11px]">
+                      <td className="py-4 px-6 text-slate-400">
                         {u.createdAt ? new Date(u.createdAt).toLocaleDateString() : 'N/A'}
                       </td>
-                      <td className="py-3.5 px-5 text-right">
-                        {!isAdminUser && (
+                      <td className="py-4 px-6 text-right">
+                        {!isUserAdmin && (
                           <button
-                            onClick={() => handleDeleteUser(uid, u.name)}
-                            title="Delete user"
-                            className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
+                            onClick={() => handleDeleteUser(id, u.name)}
+                            className="p-1.5 text-slate-500 hover:text-rose-400 hover:bg-rose-950/40 rounded-lg border border-transparent hover:border-rose-900/50 transition-colors"
+                            title="Delete User"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
