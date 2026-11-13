@@ -94,10 +94,43 @@ const deleteResume = async (req, res) => {
   }
 };
 
+// Load and attach pre-built sample resume
+const loadSampleResume = async (req, res) => {
+  try {
+    const samplePath = path.join(__dirname, '../../sample_resumes/John_Doe_Software_Engineer_Resume.pdf');
+    if (!fs.existsSync(samplePath)) {
+      return res.status(404).json({ message: 'Sample resume not found on server.' });
+    }
+
+    const parseResult = await extractTextAndSections(samplePath);
+    const stats = fs.statSync(samplePath);
+
+    const newResume = await ResumeModel.create({
+      userId: req.user.id,
+      originalFileName: 'John_Doe_FullStack_Resume.pdf',
+      fileType: 'application/pdf',
+      fileSize: stats.size,
+      filePath: samplePath,
+      extractedText: parseResult.text,
+      sections: parseResult.sections,
+      uploadStatus: 'processed',
+    });
+
+    return res.status(201).json({
+      message: 'Sample resume loaded successfully!',
+      resume: newResume,
+    });
+  } catch (err) {
+    console.error('Error loading sample resume:', err);
+    return res.status(500).json({ message: 'Failed to load sample resume.' });
+  }
+};
+
 module.exports = {
   uploadResume,
   getUserResumes,
   getResumeById,
   deleteResume,
+  loadSampleResume,
 };
 

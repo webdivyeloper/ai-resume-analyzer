@@ -43,6 +43,7 @@ export const uploadResumeApi = (formData) =>
   api.post('/resumes/upload', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
+export const loadSampleResumeApi = () => api.post('/resumes/load-sample');
 export const getResumesApi = () => api.get('/resumes');
 export const getResumeByIdApi = (id) => api.get(`/resumes/${id}`);
 export const deleteResumeApi = (id) => api.delete(`/resumes/${id}`);
