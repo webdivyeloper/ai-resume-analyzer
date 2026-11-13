@@ -48,7 +48,7 @@ const Login = () => {
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 bg-slate-50">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200/80 p-8">
         <div className="text-center mb-6">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white mx-auto mb-3 shadow-md shadow-blue-500/20">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-600 flex items-center justify-center text-white mx-auto mb-3 shadow-md shadow-indigo-500/20">
             <FileText className="w-6 h-6" />
           </div>
           <h2 className="text-2xl font-black text-slate-900 tracking-tight">Sign In</h2>
@@ -73,7 +73,7 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="e.g. user@example.com"
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-sm transition-all"
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 text-sm transition-all"
             />
           </div>
 
@@ -87,14 +87,14 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-sm transition-all"
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 text-sm transition-all"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full mt-2 py-3 px-4 rounded-xl text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-500/20 transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full mt-2 py-3 px-4 rounded-xl text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-md shadow-indigo-500/20 transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {loading ? (
               <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -116,7 +116,7 @@ const Login = () => {
             <button
               type="button"
               onClick={() => handleQuickFill('user')}
-              className="py-2 px-3 rounded-xl border border-blue-200 bg-blue-50/70 hover:bg-blue-100/70 text-blue-700 text-xs font-semibold flex items-center justify-center gap-1.5 transition-all"
+              className="py-2 px-3 rounded-xl border border-indigo-200 bg-indigo-50/70 hover:bg-indigo-100/70 text-indigo-700 text-xs font-semibold flex items-center justify-center gap-1.5 transition-all"
             >
               {filledType === 'user' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <UserCheck className="w-3.5 h-3.5" />}
               Demo Student
@@ -134,7 +134,7 @@ const Login = () => {
 
         <p className="mt-6 text-center text-xs text-slate-500">
           New user?{' '}
-          <Link to="/register" className="font-bold text-blue-600 hover:underline">
+          <Link to="/register" className="font-bold text-indigo-600 hover:underline">
             Create an account
           </Link>
         </p>

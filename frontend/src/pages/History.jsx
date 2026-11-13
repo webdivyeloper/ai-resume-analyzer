@@ -8,7 +8,6 @@ import {
   Trash2,
   AlertCircle,
   ArrowRight,
-  Filter,
   Layers,
 } from 'lucide-react';
 
@@ -64,13 +63,13 @@ const History = () => {
         <div>
           <h1 className="text-2xl font-black text-slate-900 tracking-tight">Analysis History</h1>
           <p className="text-xs text-slate-500 mt-1">
-            Browse and inspect historical resume scans and ATS evaluations (SRS FR-7.3)
+            Browse and inspect historical resume scans and ATS evaluations
           </p>
         </div>
 
         <Link
           to="/analyze"
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/20 transition-all self-start sm:self-auto"
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-md shadow-indigo-500/20 transition-all self-start sm:self-auto"
         >
           New Analysis
         </Link>
@@ -92,7 +91,7 @@ const History = () => {
             placeholder="Search by job title or file name..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 bg-white"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 bg-white"
           />
         </div>
 
@@ -157,7 +156,7 @@ const History = () => {
                   className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-slate-50/70 transition-colors"
                 >
                   <div className="flex items-start gap-3.5">
-                    <div className="p-3 rounded-xl bg-blue-50 text-blue-600 mt-0.5">
+                    <div className="p-3 rounded-xl bg-indigo-50 text-indigo-600 mt-0.5">
                       <FileText className="w-5 h-5" />
                     </div>
                     <div>
@@ -181,7 +180,7 @@ const History = () => {
                     </span>
                     <Link
                       to={`/report/${id}`}
-                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 transition-colors"
+                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 transition-colors"
                     >
                       Report
                       <ArrowRight className="w-3.5 h-3.5" />

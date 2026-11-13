@@ -22,7 +22,7 @@ const Dashboard = () => {
   const [resumes, setResumes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [scoreFilter, setScoreFilter] = useState('all'); // 'all' | 'high' | 'low'
+  const [scoreFilter, setScoreFilter] = useState('all');
   const [sampleLoading, setSampleLoading] = useState(false);
 
   useEffect(() => {
@@ -79,22 +79,22 @@ const Dashboard = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-slate-800">
       {/* Top Banner */}
-      <div className="bg-gradient-to-r from-blue-700 via-indigo-700 to-blue-800 rounded-3xl p-6 sm:p-8 text-white shadow-xl shadow-blue-500/15 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl shadow-indigo-950/20 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border border-slate-800">
         <div>
-          <span className="inline-block px-3 py-1 rounded-full bg-white/20 text-xs font-bold uppercase tracking-wider backdrop-blur-sm mb-3">
+          <span className="inline-block px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-bold uppercase tracking-wider backdrop-blur-sm mb-3 border border-indigo-500/30">
             Candidate Workspace
           </span>
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
             Welcome back, {user?.name || 'Candidate'}!
           </h1>
-          <p className="mt-2 text-blue-100 text-sm max-w-xl leading-relaxed">
+          <p className="mt-2 text-slate-300 text-sm max-w-xl leading-relaxed">
             Monitor resume ATS compatibility, run real-time job description matching, and review actionable recommendations.
           </p>
         </div>
 
         <Link
           to="/analyze"
-          className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white text-blue-700 font-bold text-sm shadow-md hover:bg-blue-50 transition-all hover:scale-105 active:scale-95"
+          className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 text-white font-bold text-sm shadow-md hover:bg-indigo-700 transition-all hover:scale-105 active:scale-95"
         >
           <UploadCloud className="w-4 h-4" />
           Analyze New Resume
@@ -106,7 +106,7 @@ const Dashboard = () => {
         <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs card-hover">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Total Scans</span>
-            <div className="p-2 rounded-xl bg-blue-50 text-blue-600">
+            <div className="p-2 rounded-xl bg-indigo-50 text-indigo-600">
               <Layers className="w-4 h-4" />
             </div>
           </div>
@@ -128,11 +128,11 @@ const Dashboard = () => {
         <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs card-hover">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Average Score</span>
-            <div className="p-2 rounded-xl bg-indigo-50 text-indigo-600">
+            <div className="p-2 rounded-xl bg-violet-50 text-violet-600">
               <TrendingUp className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-3xl font-black font-mono text-indigo-600 mt-2">{averageScore}%</p>
+          <p className="text-3xl font-black font-mono text-violet-600 mt-2">{averageScore}%</p>
           <span className="text-xs text-slate-400 mt-1 block">Mean alignment</span>
         </div>
 
@@ -195,7 +195,7 @@ const Dashboard = () => {
               placeholder="Search by job title or resume..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600"
+              className="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
             />
           </div>
 
@@ -203,7 +203,7 @@ const Dashboard = () => {
             <div className="py-12 text-center text-xs text-slate-400">Loading analysis reports...</div>
           ) : filteredAnalyses.length === 0 ? (
             <div className="py-12 text-center">
-              <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-3">
+              <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto mb-3">
                 <UploadCloud className="w-6 h-6" />
               </div>
               <h3 className="text-sm font-bold text-slate-800">No evaluations found</h3>
@@ -212,7 +212,7 @@ const Dashboard = () => {
               </p>
               <Link
                 to="/analyze"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-sm"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-sm"
               >
                 Start First Analysis
               </Link>
@@ -229,10 +229,10 @@ const Dashboard = () => {
                 return (
                   <div
                     key={id}
-                    className="p-4 rounded-xl border border-slate-200/80 hover:border-blue-300 hover:shadow-xs transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white"
+                    className="p-4 rounded-xl border border-slate-200/80 hover:border-indigo-300 hover:shadow-xs transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white"
                   >
                     <div className="flex items-start gap-3">
-                      <div className="p-2.5 rounded-xl bg-blue-50 text-blue-600 mt-0.5">
+                      <div className="p-2.5 rounded-xl bg-indigo-50 text-indigo-600 mt-0.5">
                         <FileText className="w-4 h-4" />
                       </div>
                       <div>
@@ -254,7 +254,7 @@ const Dashboard = () => {
                       </span>
                       <Link
                         to={`/report/${id}`}
-                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 transition-colors"
+                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 transition-colors"
                       >
                         Inspect Report
                         <ArrowRight className="w-3 h-3" />
@@ -286,7 +286,7 @@ const Dashboard = () => {
                   type="button"
                   disabled={sampleLoading}
                   onClick={handleLoadSample}
-                  className="mt-3 px-3 py-1.5 rounded-xl text-xs font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200"
+                  className="mt-3 px-3 py-1.5 rounded-xl text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200"
                 >
                   {sampleLoading ? 'Loading...' : '+ Load Demo Resume'}
                 </button>
@@ -319,7 +319,7 @@ const Dashboard = () => {
           <div className="mt-6 pt-4 border-t border-slate-100 space-y-2">
             <Link
               to="/analyze"
-              className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-500/20 transition-all"
+              className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-md shadow-indigo-500/20 transition-all"
             >
               <UploadCloud className="w-4 h-4" />
               Analyze Another PDF
