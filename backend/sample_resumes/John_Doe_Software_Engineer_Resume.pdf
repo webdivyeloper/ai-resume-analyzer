@@ -1,0 +1,94 @@
+%PDF-1.4
+1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj
+2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj
+3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >> endobj
+4 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> endobj
+5 0 obj << /Length 1940 >>
+stream
+BT
+/F1 12 Tf
+50 750 Td
+16 TL
+(John Doe - Full Stack Developer) Tj
+T*
+(Email: john.doe@example.com | Phone: 555-0199 | Indore, MP) Tj
+T*
+(LinkedIn: linkedin.com/in/johndoe | GitHub: github.com/johndoe) Tj
+T*
+( ) Tj
+T*
+(PROFESSIONAL SUMMARY) Tj
+T*
+(Enthusiastic and results-driven Software Engineer with 2+ years of experience in full-stack web development.) Tj
+T*
+(Proficient in building modern, responsive user interfaces and high-performance backend microservices.) Tj
+T*
+( ) Tj
+T*
+(TECHNICAL SKILLS) Tj
+T*
+(Languages: JavaScript, TypeScript, Python, Java, SQL, HTML5, CSS3) Tj
+T*
+(Frameworks & Libraries: React, Node.js, Express, Tailwind CSS, Redux, Next.js) Tj
+T*
+(Databases: MongoDB, PostgreSQL, MySQL, Redis) Tj
+T*
+(Tools & Cloud: Git, Docker, Kubernetes, AWS, Linux, CI/CD, Agile, Scrum, Jest) Tj
+T*
+( ) Tj
+T*
+(WORK EXPERIENCE) Tj
+T*
+(Full Stack Software Developer Intern - TechNova Systems 2025 - Present) Tj
+T*
+(- Developed and deployed responsive web applications using React.js, Express, and MongoDB.) Tj
+T*
+(- Optimized backend database queries, reducing average API response times by 32%.) Tj
+T*
+(- Collaborated in an Agile Scrum team of 8 engineers and conducted regular code reviews.) Tj
+T*
+(- Integrated secure authentication with JSON Web Tokens JWT and role-based access control.) Tj
+T*
+( ) Tj
+T*
+(EDUCATION) Tj
+T*
+(Bachelor of Technology in Computer Science and Engineering) Tj
+T*
+(Medicaps University 2023 - 2027 | CGPA: 8.7/10) Tj
+T*
+( ) Tj
+T*
+(PROJECTS) Tj
+T*
+(AI Resume Analyzer & ATS Score Optimizer) Tj
+T*
+(- Engineered a full-stack MERN application that extracts text from PDF resumes and evaluates ATS compatibility.) Tj
+T*
+(- Implemented keyword gap extraction and recommendation engine using NLP.) Tj
+T*
+(- Served 500+ student evaluations with 99% uptime.) Tj
+T*
+( ) Tj
+T*
+(CERTIFICATIONS) Tj
+T*
+(AWS Certified Cloud Practitioner 2025) Tj
+T*
+(Full Stack Web Development - Meta Professional Certificate) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000222 00000 n 
+0000000299 00000 n 
+trailer << /Size 6 /Root 1 0 R >>
+startxref
+2340
+%%EOF

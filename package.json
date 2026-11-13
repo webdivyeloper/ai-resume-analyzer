@@ -1,0 +1,15 @@
+{
+  "name": "ai-resume-analyzer",
+  "version": "1.0.0",
+  "description": "AI Resume Analyzer - Software Engineering Project (Medicaps University SEM5)",
+  "main": "start.js",
+  "scripts": {
+    "start": "node start.js",
+    "backend": "cd backend && npm start",
+    "frontend": "cd frontend && npm run dev",
+    "seed:pdf": "cd backend && node scripts/generateSamplePdf.js"
+  },
+  "keywords": ["ai", "resume-analyzer", "ats", "mern", "se-project"],
+  "author": "Medicaps University CSE Dept",
+  "license": "ISC"
+}
