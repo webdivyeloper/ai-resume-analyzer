@@ -163,6 +163,7 @@ const AnalyzeResume = () => {
 
       formData.append('jobTitle', jobTitle || 'Target Position');
       formData.append('jobDescription', jobDescription);
+      formData.append('jobDescriptionText', jobDescription);
 
       const res = await createAnalysisApi(formData);
 

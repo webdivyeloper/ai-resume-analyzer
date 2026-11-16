@@ -8,9 +8,10 @@ const { extractTextAndSections } = require('../services/pdfService');
 // Create a new analysis
 const createAnalysis = async (req, res) => {
   try {
-    const { resumeId, jobTitle, jobDescriptionText } = req.body;
+    const { resumeId, jobTitle } = req.body;
+    const jobDescriptionText = (req.body.jobDescriptionText || req.body.jobDescription || req.body.rawText || '').trim();
 
-    if (!jobDescriptionText || jobDescriptionText.trim().length < 20) {
+    if (!jobDescriptionText || jobDescriptionText.length < 20) {
       return res.status(400).json({
         message: 'Job description is required and should be at least 20 characters.',
       });
