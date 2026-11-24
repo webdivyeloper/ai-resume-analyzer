@@ -3,6 +3,10 @@
 
 An AI-powered, ATS-oriented Resume Analyzer web platform built strictly in accordance with the **Software Requirements Specification (SRS v1.0)**.
 
+- 🌐 **Live Website**: [https://ai-resume-analyzer-fsqj.onrender.com/](https://ai-resume-analyzer-fsqj.onrender.com/)
+- 💻 **GitHub Repository**: [https://github.com/webdivyeloper/ai-resume-analyzer](https://github.com/webdivyeloper/ai-resume-analyzer)
+- 📊 **Project Presentation**: [AI_Resume_Analyzer_Presentation.pptx](./AI_Resume_Analyzer_Presentation.pptx)
+
 ---
 
 ## 🌟 Overview & Key Highlights

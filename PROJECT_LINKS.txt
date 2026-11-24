@@ -1,0 +1,34 @@
+========================================================================
+             AI RESUME ANALYZER & ATS SCORE OPTIMIZER
+  Software Engineering Project (SEM 5) - Medicaps University, CSE Dept
+========================================================================
+
+🔗 LIVE APPLICATION URL:
+   https://ai-resume-analyzer-fsqj.onrender.com/
+
+🔗 GITHUB REPOSITORY:
+   https://github.com/webdivyeloper/ai-resume-analyzer
+
+📊 PRESENTATION SLIDES (PPT):
+   Included in this folder: "AI_Resume_Analyzer_Presentation.pptx"
+
+------------------------------------------------------------------------
+🔑 1-CLICK DEMO CREDENTIALS:
+------------------------------------------------------------------------
+   • Student / Candidate Account:
+     Email:    user@example.com
+     Password: password123
+
+   • Administrator / Faculty Account:
+     Email:    admin@example.com
+     Password: admin123
+
+   (Note: The Sign In page has 1-Click "Student User" and "Admin User"
+    auto-fill buttons for instant testing!)
+
+------------------------------------------------------------------------
+🚀 LOCAL RUNNING INSTRUCTIONS:
+------------------------------------------------------------------------
+   1. Double-click "run.bat" (Windows) OR run "npm start" in terminal.
+   2. Open browser at: http://localhost:5173
+========================================================================
